@@ -1,0 +1,7 @@
+name: domain-blog
+rules:
+  - rule_id: bl_001
+    pattern: "首先.*其次.*最後"
+    severity: medium
+    domain_applicability: [blog_writing]
+    rewrite_hint: "降低公式化段落"

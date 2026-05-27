@@ -1,0 +1,7 @@
+name: domain-academic
+rules:
+  - rule_id: ac_001
+    pattern: "本研究具有重要意義"
+    severity: low
+    domain_applicability: [academic_paper]
+    rewrite_hint: "改為可驗證貢獻描述"
