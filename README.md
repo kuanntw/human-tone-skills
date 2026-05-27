@@ -125,3 +125,127 @@
 - 台灣職場 AL/SSG 詮釋脈絡
 - 高頻 AI 詞彙替代建議
 
+
+
+## 在各種 AI 工具中的使用方式
+
+以下示範如何在不同 AI 平台中套用本專案（以 `templates_human_tone_refiner_prompt_zhTW.md` 與 `rulepacks/zh/*` 為核心）。
+
+### 1) ChatGPT（自訂 GPT / 一般對話）
+
+- 做法 A（建議）：建立「自訂 GPT」
+  1. 將 `templates_human_tone_refiner_prompt_zhTW.md` 內容貼到 Instructions。
+  2. 在 Knowledge 或附加檔案中放入：
+     - `chinese-human-tone-skill-spec-v1.md`
+     - `rulepacks/zh/*.yml`
+     - `glossaries/brand_voice_glossary.yml`
+  3. 對話時指定：`scenario=academic_paper|social_post|blog_writing|content_marketing|educational_content`。
+
+- 做法 B：一般對話
+  1. 先貼上模板（system-like 指令）。
+  2. 再貼原文與約束（保留詞、保留數字、長度變化）。
+
+### 2) Claude（Projects）
+
+1. 建立 Project，將下列檔案加入 Project Knowledge：
+   - `templates_human_tone_refiner_prompt_zhTW.md`
+   - `chinese-human-tone-skill-spec-v1.md`
+   - `rulepacks/zh/*.yml`
+2. 在 Project Instructions 中要求 Claude 依 Output Schema 輸出：`rewrites/diagnostics/change_log`。
+3. 每次任務給定 `scenario` 與 `tone` 參數。
+
+### 3) Gemini（Gem / Notebook）
+
+1. 建立 Gem（或在 NotebookLM / 文件工作流）並貼上模板規則。
+2. 上傳規格與 rulepacks 檔案作為參考上下文。
+3. 提示詞中固定附上 hard constraints：
+   - 不改 B/SE/t/p/R²
+   - preserve_terms 必須保留
+   - preserve_numbers=true 時數字不可變
+
+### 4) Microsoft Copilot（M365 / Copilot Studio）
+
+1. 在 Copilot Studio 建立 topic 或 prompt action。
+2. 將模板放入 system 指令層，並把 `scenario`、`tone`、`constraints` 設為輸入參數。
+3. 若接企業知識庫，需先在流程中做「數字與專有名詞保留」校驗。
+
+### 5) API 串接（OpenAI / Anthropic / Gemini API）
+
+建議流程：
+1. 先用 `src/humantone/parser.py` 讀取 `rulepacks/zh/*`。
+2. 依 `scenario` 選 tone preset（`src/humantone/presets.py`）。
+3. 組合 prompt：模板 + 原文 + constraints + glossary。
+4. 要求模型輸出 JSON（`rewrites`, `diagnostics`, `change_log`）。
+5. 後處理驗證：
+   - preserve_terms 全部命中
+   - preserve_numbers 檢查
+   - semantic drift 風險分級
+
+### 建議統一呼叫格式（貼給任何 AI 都可用）
+
+```text
+請使用 Human-Tone Refiner 規則改寫以下中文內容。
+scenario: academic_paper
+locale: zh-Hant
+region: TW
+tone: formality=90, warmth=35, confidence=75, directness=65
+constraints:
+- preserve_terms: ["AL", "SSG", "R²"]
+- preserve_numbers: true
+- max_length_change_pct: 25
+輸出格式：rewrites, diagnostics, change_log
+```
+
+
+
+## 安裝方式
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -U pytest
+```
+
+## CLI 使用方式
+
+```bash
+python -m humantone analyze input.txt --scenario academic_paper --locale zh-Hant --region TW
+python -m humantone build-prompt input.txt --scenario academic_paper --mode minimal_edit
+python -m humantone validate original.txt rewritten.txt --preserve-numbers
+```
+
+## Python API 使用方式
+
+```python
+from humantone.schemas import RewriteInput
+from humantone.pipeline import run_pipeline
+
+payload = RewriteInput(text="你的文本", scenario="academic_paper")
+out = run_pipeline(payload)
+print(out.to_dict())
+```
+
+## Scenario 說明
+- `academic_paper`：博士論文/期刊/摘要，保留嚴謹度與引文數據
+- `social_post`：社群貼文，強調自然與節奏
+- `blog_writing`：部落格，降低模板轉折
+- `content_marketing`：內容行銷，保留賣點但避免浮誇
+- `educational_content`：知識教育內容，強調清晰與正確
+
+## academic_paper 使用範例
+- 請搭配 `templates/academic_thesis_review_prompt_zhTW.md`
+- 模式支援：`diagnose_only`, `minimal_edit`, `paragraph_rewrite`, `reviewer_suggestion`, `human_tone_revision`
+
+## 重要聲明
+本專案**不保證通過 AI detector**；目標是降低機械感並維持事實、數字、專有名詞與原意。
+
+## 如何新增 rulepack
+1. 在 `rulepacks/zh/` 新增 `.yml` 或 `.json`
+2. 每條規則包含：`id/name/pattern|heuristic/severity/domain_applicability/suggestion/examples.before/examples.after`
+3. 使用 `load_rulepacks("rulepacks/zh")` 驗證可讀取
+
+## 如何跑測試
+
+```bash
+python -m pytest -q
+```
