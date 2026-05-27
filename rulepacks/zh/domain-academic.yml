@@ -1,0 +1,107 @@
+name: domain-academic
+rules:
+  - id: template_transition_overuse
+    name: 模板轉折過度使用
+    pattern: "整體而言|由此可見|值得注意的是|換言之|基於上述"
+    severity: medium
+    domain_applicability: [academic_paper]
+    suggestion: "刪減模板轉折，改為具體推論銜接"
+    examples.before: "整體而言，本研究..."
+    examples.after: "依據上述結果，本研究主張..."
+  - id: parallel_structure_overuse
+    name: 平行辯證結構過度
+    heuristic: "連續出現 一方面/另一方面 或 不僅/也"
+    severity: medium
+    domain_applicability: [academic_paper]
+    suggestion: "改為單線論證並補充作者判斷"
+    examples.before: "一方面...另一方面..."
+    examples.after: "在此脈絡下，作者判斷..."
+  - id: abstract_noun_density
+    name: 抽象名詞密度過高
+    heuristic: "機制/脈絡/意涵/歷程/條件/轉化/作用 連續高頻"
+    severity: high
+    domain_applicability: [academic_paper]
+    suggestion: "加入具體主語與研究決策"
+    examples.before: "此機制在脈絡下產生作用"
+    examples.after: "研究者據此判斷X機制在Y樣本更明顯"
+  - id: generic_conclusion_sentence
+    name: 結尾過於安全通則
+    pattern: "因此，本研究|整體而言，本研究"
+    severity: medium
+    domain_applicability: [academic_paper]
+    suggestion: "結尾提出可檢驗主張"
+    examples.before: "由此可見，本研究具有貢獻"
+    examples.after: "據此，我們主張H2a僅在高面子顧慮條件成立"
+  - id: lack_of_authorial_stance
+    name: 缺乏作者取捨立場
+    heuristic: "僅描述文獻，缺少作者判斷句"
+    severity: medium
+    domain_applicability: [academic_paper]
+    suggestion: "補入研究者為何採納/排除特定理論"
+    examples.before: "文獻指出A也指出B"
+    examples.after: "本文採A而不採B，因B無法解釋台灣樣本"
+  - id: over_smooth_paragraph_flow
+    name: 段落節奏過度平滑
+    heuristic: "句長變異極低、每段同節奏收尾"
+    severity: low
+    domain_applicability: [academic_paper]
+    suggestion: "調整長短句比例並減少制式收尾"
+    examples.before: "每段皆由此可見收尾"
+    examples.after: "改為具體限制與邊界條件"
+  - id: repeated_research_gap_formula
+    name: 研究缺口公式反覆
+    pattern: "目前研究.*不足.*因此本研究"
+    severity: medium
+    domain_applicability: [academic_paper]
+    suggestion: "保留1次即可，其餘改為差異化缺口"
+    examples.before: "目前研究不足，因此本研究"
+    examples.after: "相較既有研究，本文聚焦於..."
+  - id: ai_like_literature_review_pattern
+    name: 文獻回顧像AI拼貼
+    heuristic: "看似完整但缺少作者取捨與批判"
+    severity: high
+    domain_applicability: [academic_paper]
+    suggestion: "加入『採納/不採納』與理論邊界"
+    examples.before: "多篇文獻均支持..."
+    examples.after: "本文僅採納可解釋SSG變異之研究"
+  - id: unsafe_over_rewrite_for_academic_text
+    name: 學術文本過度改寫風險
+    heuristic: "改寫後語氣轉口語或改動統計值"
+    severity: high
+    domain_applicability: [academic_paper]
+    suggestion: "啟用minimal_edit並鎖定數據/引文"
+    examples.before: "這結果超猛"
+    examples.after: "此結果顯示顯著差異"
+  - id: citation_and_number_preservation
+    name: 引文與數字必須保留
+    heuristic: "(作者, 年份)、p值、β值、R²、H編號皆不可改"
+    severity: high
+    domain_applicability: [academic_paper]
+    suggestion: "先比對再輸出"
+    examples.before: "p < .05 被改"
+    examples.after: "p < .05 保留不變"
+
+  - id: strict_chronological_compliance
+    name: 嚴格時間對位與文獻清洗
+    heuristic: "偵測引文年份 2026 或不合資料時間軸的年份"
+    severity: high
+    domain_applicability: [academic_paper]
+    suggestion: "若為核心論點，改寫為新興討論而非既定定論；降低2026高頻露出"
+    examples.before: "Sun et al. (2026) 已證實..."
+    examples.after: "近期新興研究觀點指出...但其結論仍待更多驗證"
+  - id: de_symmetrization_required
+    name: 破除機械對稱辯證
+    heuristic: "重複出現一方面/另一方面或過度鏡像句式"
+    severity: high
+    domain_applicability: [academic_paper]
+    suggestion: "改為非對稱敘事，整合張力到具體情境"
+    examples.before: "一方面...另一方面..."
+    examples.after: "然而在實務上，該關聯受管理問責能力調節"
+  - id: forbidden_transition_lexicon_round2
+    name: 第二輪贅詞轉折清洗
+    pattern: "換言之|換句話說|綜上所述|具體而言"
+    severity: medium
+    domain_applicability: [academic_paper]
+    suggestion: "刪減轉折口頭禪，直接陳述可檢驗主張"
+    examples.before: "換言之，本研究..."
+    examples.after: "本研究主張..."
