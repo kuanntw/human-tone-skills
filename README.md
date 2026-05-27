@@ -111,3 +111,17 @@
 3. 加入自動回歸測試（保留詞、數字、語義偏移）
 4. 再擴充企業詞庫（brand voice glossary）
 
+
+
+## 學術領域強化（zh-TW）
+
+已加入一份可直接套用的學術去 AI 味提示模板：
+
+- `templates_human_tone_refiner_prompt_zhTW.md`
+
+此模板特別強化：
+- 機械式對稱辯證清洗
+- 時序/引文異常提示
+- 台灣職場 AL/SSG 詮釋脈絡
+- 高頻 AI 詞彙替代建議
+

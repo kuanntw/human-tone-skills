@@ -14,3 +14,10 @@ PROMPT_TEMPLATES = {
     )
     for domain in TONE_PRESETS
 }
+
+
+ACADEMIC_ZHTW_REFINER = {
+    "name": "academic_paper_zhTW",
+    "forbidden_lexicons": ["內內嵌於","深度的影響","此區辨","條件性催化","重新賦義","架構下","轉譯為","雙元性","妥善地"],
+    "preferred_lexicons": ["根植於","脈絡化","深遠影響","上述區別","情境化調和機制","重新詮釋","在此模型中","轉化為","雙重特質","有效率地"],
+}
