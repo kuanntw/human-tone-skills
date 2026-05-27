@@ -80,3 +80,28 @@ rules:
     suggestion: "先比對再輸出"
     examples.before: "p < .05 被改"
     examples.after: "p < .05 保留不變"
+
+  - id: strict_chronological_compliance
+    name: 嚴格時間對位與文獻清洗
+    heuristic: "偵測引文年份 2026 或不合資料時間軸的年份"
+    severity: high
+    domain_applicability: [academic_paper]
+    suggestion: "若為核心論點，改寫為新興討論而非既定定論；降低2026高頻露出"
+    examples.before: "Sun et al. (2026) 已證實..."
+    examples.after: "近期新興研究觀點指出...但其結論仍待更多驗證"
+  - id: de_symmetrization_required
+    name: 破除機械對稱辯證
+    heuristic: "重複出現一方面/另一方面或過度鏡像句式"
+    severity: high
+    domain_applicability: [academic_paper]
+    suggestion: "改為非對稱敘事，整合張力到具體情境"
+    examples.before: "一方面...另一方面..."
+    examples.after: "然而在實務上，該關聯受管理問責能力調節"
+  - id: forbidden_transition_lexicon_round2
+    name: 第二輪贅詞轉折清洗
+    pattern: "換言之|換句話說|綜上所述|具體而言"
+    severity: medium
+    domain_applicability: [academic_paper]
+    suggestion: "刪減轉折口頭禪，直接陳述可檢驗主張"
+    examples.before: "換言之，本研究..."
+    examples.after: "本研究主張..."
