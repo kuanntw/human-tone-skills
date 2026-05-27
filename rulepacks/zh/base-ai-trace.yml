@@ -1,0 +1,7 @@
+name: base-ai-trace
+rules:
+  - rule_id: base_001
+    pattern: "總而言之|在當今時代"
+    severity: medium
+    domain_applicability: [academic_paper, social_post, blog_writing, content_marketing, educational_content]
+    rewrite_hint: "改為具體總結句，避免模板收尾"
