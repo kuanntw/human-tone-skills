@@ -1,0 +1,6 @@
+brand: sample
+terms:
+  - preferred: "我們建議"
+    avoid: ["你必須", "絕對要"]
+  - preferred: "具體成效"
+    avoid: ["革命性突破"]

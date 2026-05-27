@@ -1,0 +1,7 @@
+name: domain-education
+rules:
+  - rule_id: ed_001
+    pattern: "你只要記住這一點"
+    severity: low
+    domain_applicability: [educational_content]
+    rewrite_hint: "改為中性教學語氣"
