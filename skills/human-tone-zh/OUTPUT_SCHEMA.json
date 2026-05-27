@@ -1,0 +1,24 @@
+{
+  "type": "object",
+  "required": ["ai_tone_score", "main_issues", "high_risk_sentences", "paragraph_level_feedback", "do_not_change", "revision_strategy"],
+  "properties": {
+    "ai_tone_score": {"type": "number", "minimum": 0, "maximum": 10},
+    "main_issues": {"type": "array", "items": {"type": "string"}},
+    "high_risk_sentences": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["original", "issue", "suggested_revision", "reason"],
+        "properties": {
+          "original": {"type": "string"},
+          "issue": {"type": "string"},
+          "suggested_revision": {"type": "string"},
+          "reason": {"type": "string"}
+        }
+      }
+    },
+    "paragraph_level_feedback": {"type": "array", "items": {"type": "string"}},
+    "do_not_change": {"type": "array", "items": {"type": "string"}},
+    "revision_strategy": {"type": "string"}
+  }
+}

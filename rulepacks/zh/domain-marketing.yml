@@ -1,0 +1,7 @@
+name: domain-marketing
+rules:
+  - rule_id: mk_001
+    pattern: "革命性|顛覆性"
+    severity: high
+    domain_applicability: [content_marketing]
+    rewrite_hint: "改為可量化利益點"

@@ -1,0 +1,7 @@
+name: domain-social
+rules:
+  - rule_id: so_001
+    pattern: "此外|同時|然而"
+    severity: low
+    domain_applicability: [social_post]
+    rewrite_hint: "減少硬轉折，改自然語氣"

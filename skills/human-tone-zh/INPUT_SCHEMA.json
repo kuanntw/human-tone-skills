@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "required": ["text", "scenario", "locale", "region", "mode", "constraints"],
+  "properties": {
+    "text": {"type": "string"},
+    "scenario": {"enum": ["academic_paper", "social_post", "blog_writing", "content_marketing", "educational_content"]},
+    "locale": {"enum": ["zh-Hant", "zh-Hans"]},
+    "region": {"enum": ["TW", "HK", "CN", "SG", "neutral"]},
+    "mode": {"enum": ["diagnose_only", "minimal_edit", "paragraph_rewrite", "reviewer_suggestion", "human_tone_revision"]},
+    "constraints": {
+      "type": "object",
+      "properties": {
+        "preserve_terms": {"type": "array", "items": {"type": "string"}},
+        "preserve_numbers": {"type": "boolean"},
+        "max_length_change_pct": {"type": "number"}
+      }
+    }
+  }
+}
