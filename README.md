@@ -249,3 +249,24 @@ print(out.to_dict())
 ```bash
 python -m pytest -q
 ```
+
+
+## Skill-only 版本（可治理）
+
+本專案提供一般 Skills 形態，不依賴 Python 執行。
+
+目錄：
+- `skills/human-tone-zh/SKILL.md`
+- `skills/human-tone-zh/SYSTEM_PROMPT.md`
+- `skills/human-tone-zh/INPUT_SCHEMA.json`
+- `skills/human-tone-zh/OUTPUT_SCHEMA.json`
+- `skills/human-tone-zh/RULES.md`
+- `skills/human-tone-zh/EXAMPLES.md`
+- `governance/CHANGE_POLICY.md`
+- `governance/REVIEW_CHECKLIST.md`
+- `governance/VERSIONING.md`
+
+說明：
+- 以模板 + rulepack + glossary 為核心
+- 強制 academic_paper 保留學術嚴謹度
+- 不保證通過 AI detector
